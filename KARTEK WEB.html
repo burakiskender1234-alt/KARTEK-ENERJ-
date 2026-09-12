@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartek Enerji | Endüstriyel Kesintisiz Güç Kaynağı (UPS) Sistemleri</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #070a10;
+            --panel-bg: rgba(13, 20, 33, 0.85);
+            --border-glow: rgba(0, 216, 255, 0.25);
+            --neon-blue: #00d8ff;
+            --neon-green: #00ff88;
+            --neon-amber: #ffaa00;
+            --neon-red: #ff2a5f;
+            --text-muted: #8a99ad;
+            --card-bg: #0d1522;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background: var(--bg-dark); 
+            color: #fff; 
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 216, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(0, 255, 136, 0.05) 0%, transparent 40%),
+                linear-gradient(180deg, #070a10 0%, #0d1522 100%);
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* HEADER & TOPBAR */
+        .top-bar {
+            background: rgba(3, 5, 8, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.85rem; color: var(--text-muted);
+        }
+        .top-bar-contact { display: flex; gap: 20px; align-items: center; }
+        .top-bar-contact a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .top-bar-contact a:hover { color: var(--neon-blue); }
+
+        header {
+            background: rgba(7, 10, 16, 0.95);
+            border-bottom: 1px solid var(--border-glow);
+            padding: 1rem 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            backdrop-filter: blur(12px);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: 900; letter-spacing: 2px; color: #fff; text-decoration: none; }
+        .logo span { color: var(--neon-blue); text-shadow: 0 0 12px var(--neon-blue); }
+        
+        nav ul { display: flex; list-style: none; gap: 10px; }
+        nav a {
+            color: #e0e6ed; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+            padding: 8px 14px; border-radius: 6px; transition: 0.3s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        nav a:hover, nav a.active { color: var(--neon-blue); background: rgba(0, 216, 255, 0.1); }
+
+        .btn-bayi {
+            background: transparent; border: 1px solid var(--neon-blue); color: var(--neon-blue);
+            padding: 8px 18px; border-radius: 20px; font-weight: 700; text-decoration: none; transition: 0.3s;
+        }
+        .btn-bayi:hover { background: var(--neon-blue); color: #000; box-shadow: 0 0 15px var(--neon-blue); }
+
+        /* SECTIONS & TABS */
+        .page-tab { display: none; }
+        .page-tab.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .container { max-width: 1250px; margin: 0 auto; padding: 40px 20px; }
+
+        /* HERO SECTION */
+        .hero {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+            padding: 60px 8%; background: radial-gradient(circle at 10% 20%, rgba(0, 216, 255, 0.05) 0%, transparent 50%);
+        }
+        .hero-badge {
+            display: inline-block; background: rgba(0, 216, 255, 0.1); border: 1px solid var(--neon-blue);
+            color: var(--neon-blue); font-size: 0.85rem; font-weight: 700; padding: 6px 16px; border-radius: 20px; margin-bottom: 20px;
+        }
+        .hero h1 { font-family: 'Orbitron', sans-serif; font-size: 2.8rem; line-height: 1.2; margin-bottom: 20px; font-weight: 900; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; }
+        .hero-btns { display: flex; gap: 15px; }
+        .btn-primary { background: var(--neon-blue); color: #000; padding: 14px 28px; border-radius: 8px; font-weight: 800; text-decoration: none; transition: 0.3s; }
+        .btn-primary:hover { background: var(--neon-green); box-shadow: 0 0 20px var(--neon-green); }
+        .btn-outline { border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 14px 28px; border-radius: 8px; font-weight: 700; text-decoration: none; transition: 0.3s; }
+        .btn-outline:hover { border-color: var(--neon-blue); color: var(--neon-blue); }
+
+        /* ADVANCED SCADA SIMULATOR */
+        .scada-frame {
+            background: var(--panel-bg); border: 2px solid var(--border-glow);
+            border-radius: 16px; padding: 25px; box-shadow: 0 0 40px rgba(0, 216, 255, 0.15); backdrop-filter: blur(10px);
+        }
+        .scada-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; margin-bottom: 20px; }
+        .scada-title { font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: var(--neon-blue); letter-spacing: 1px; }
+        .mode-pill { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .mode-online { background: rgba(0, 255, 136, 0.15); color: var(--neon-green); border: 1px solid var(--neon-green); }
+        .mode-battery { background: rgba(255, 42, 95, 0.15); color: var(--neon-red); border: 1px solid var(--neon-red); animation: pulse 1s infinite; }
+        .mode-bypass { background: rgba(255, 170, 0, 0.15); color: var(--neon-amber); border: 1px solid var(--neon-amber); }
+        @keyframes pulse { 50% { opacity: 0.5; } }
+
+        .mimic-diagram {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #03060a; border-radius: 8px; padding: 12px 15px; margin-bottom: 20px;
+            border: 1px solid rgba(0, 216, 255, 0.15); font-family: 'Orbitron', sans-serif; font-size: 0.75rem;
+        }
+        .node { color: #4a5a6e; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: 0.3s; }
+        .node.on-green { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        .node.on-amber { color: var(--neon-amber); text-shadow: 0 0 10px var(--neon-amber); }
+        .node.on-red { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
+
+        .lcd-grid {
+            background: #020408; border: 1px solid var(--border-glow);
+            border-radius: 12px; padding: 15px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+            font-family: 'Orbitron', monospace;
+        }
+        .lcd-box { background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 10px; }
+        .lcd-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; }
+        .lcd-value { font-size: 1.15rem; font-weight: 700; color: #fff; margin-top: 2px; }
+
+        .scada-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn-sim { border: none; padding: 12px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-power { background: var(--neon-red); color: #fff; }
+        .btn-byp { background: rgba(255, 170, 0, 0.15); color: var(--neon-amber); border: 1px solid var(--neon-amber); }
+
+        /* CARDS & GRID */
+        .section-title { text-align: center; margin-bottom: 40px; }
+        .section-title h2 { font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #fff; }
+        .section-title p { color: var(--text-muted); margin-top: 8px; }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 30px; transition: 0.3s; }
+        .card:hover { border-color: var(--neon-blue); transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card-icon { font-size: 2.2rem; color: var(--neon-blue); margin-bottom: 20px; }
+        .card h3 { font-size: 1.3rem; margin-bottom: 12px; font-family: 'Orbitron', sans-serif; }
+        .card p { color: var(--text-muted); line-height: 1.6; font-size: 0.95rem; }
+
+        /* STATS SECTION */
+        .stats-bar { background: rgba(0, 216, 255, 0.03); border-top: 1px solid var(--border-glow); border-bottom: 1px solid var(--border-glow); padding: 50px 8%; display: flex; justify-content: space-around; text-align: center; }
+        .stat-num { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: var(--neon-green); }
+        .stat-desc { color: var(--text-muted); font-size: 0.95rem; margin-top: 5px; }
+
+        /* FOOTER */
+        footer { background: #030508; border-top: 1px solid var(--border-glow); padding: 50px 8% 20px 8%; margin-top: 80px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { font-family: 'Orbitron', sans-serif; color: #fff; margin-bottom: 20px; }
+        .footer-col p, .footer-col li { color: var(--text-muted); font-size: 0.9rem; line-height: 1.8; list-style: none; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; transition: 0.3s; }
+        .footer-col a:hover { color: var(--neon-blue); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px; text-align: center; color: var(--text-muted); font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <!-- TOPBAR -->
+    <div class="top-bar">
+        <div><i class="fa-solid fa-location-dot" style="color:var(--neon-blue)"></i> Pelitli Mah. Sahil Sok. No:4A Ortahisar / TRABZON</div>
+        <div class="top-bar-contact">
+            <span><i class="fa-solid fa-user-gear" style="color:var(--neon-green)"></i> Firma Yetkilisi: <strong>Oğuz YILDIRIM</strong></span>
+            <a href="tel:05364370337"><i class="fa-solid fa-phone" style="color:var(--neon-green)"></i> 0536 437 03 37</a>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVBAR -->
+    <header>
+        <a href="#" class="logo" onclick="switchPage('page-home', 'n-home')">KARTEK <span>ENERJİ</span></a>
+        <nav>
+            <ul>
+                <li><a href="#" id="n-home" class="active" onclick="switchPage('page-home', 'n-home')">Anasayfa</a></li>
+                <li><a href="#" id="n-about" onclick="switchPage('page-about', 'n-about')">Kurumsal</a></li>
+                <li><a href="#" id="n-products" onclick="switchPage('page-products', 'n-products')">Ürünlerimiz</a></li>
+                <li><a href="#" id="n-refs" onclick="switchPage('page-refs', 'n-refs')">Referanslar</a></li>
+                <li><a href="#" id="n-blog" onclick="switchPage('page-blog', 'n-blog')">Blog</a></li>
+                <li><a href="#" id="n-calc" onclick="switchPage('page-calc', 'n-calc')">Güç Hesaplama</a></li>
+                <li><a href="#" id="n-contact" onclick="switchPage('page-contact', 'n-contact')">İletişim</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="btn-bayi" onclick="switchPage('page-bayi', 'n-bayi')"><i class="fa-solid fa-lock"></i> Bayi Girişi</a>
+    </header>
+
+    <!-- PAGE 1: ANASAYFA -->
+    <div id="page-home" class="page-tab active">
+        <section class="hero">
+            <div>
+                <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Geleceğin Altyapısı İçin</span>
+                <h1>Akıllı ve Kesintisiz Güç Sistemleri</h1>
+                <p>Yüksek güç faktörü ve harmonik filtreleme teknolojisiyle donatılmış endüstriyel UPS sistemlerimizle, veri merkezlerinizde ve üretim hatlarınızda iş sürekliliğini garanti altına alın.</p>
+                <div class="hero-btns">
+                    <a href="#" class="btn-primary" onclick="switchPage('page-products', 'n-products')">Endüstriyel Çözümleri İncele</a>
+                    <a href="#" class="btn-outline" onclick="switchPage('page-contact', 'n-contact')">Hemen Teklif Alın</a>
+                </div>
+            </div>
+
+            <!-- AKILLI DİNAMİK CC-CV AKÜ SİMÜLATÖRÜ -->
+            <div class="scada-frame">
+                <div class="scada-top">
+                    <div class="scada-title"><i class="fa-solid fa-microchip"></i> DİNAMİK SCADA SİMÜLATÖRÜ</div>
+                    <div id="sys-mode" class="mode-pill mode-online">INNOVASIS ONLİNE ÇALIŞIYOR</div>
+                </div>
+                <div class="mimic-diagram">
+                    <div class="node on-green" id="node-grid"><i class="fa-solid fa-plug"></i> GRID</div>
+                    <div class="node on-green" id="node-rect"><i class="fa-solid fa-bolt"></i> AC/DC</div>
+                    <div class="node on-green" id="node-batt"><i class="fa-solid fa-car-battery"></i> BATT</div>
+                    <div class="node" id="node-byp"><i class="fa-solid fa-shuffle"></i> BYPASS</div>
+                    <div class="node on-green" id="node-inv"><i class="fa-solid fa-wave-square"></i> INV</div>
+                    <div class="node on-green" id="node-load"><i class="fa-solid fa-server"></i> LOAD</div>
+                </div>
+                
+                <!-- GERÇEKÇİ LCD GOSTERGE PANELİ -->
+                <div class="lcd-grid">
+                    <div class="lcd-box"><div class="lcd-label">GİRİŞ VOLTAJI</div><div class="lcd-value" id="val-grid">381 V</div></div>
+                    <div class="lcd-box"><div class="lcd-label">ÇIKIŞ VOLTAJI</div><div class="lcd-value" id="val-out" style="color:var(--neon-green)">380 V</div></div>
+                    <div class="lcd-box"><div class="lcd-label">SİSTEM YÜKÜ</div><div class="lcd-value" style="color:var(--neon-blue)">%45.5</div></div>
+                    <div class="lcd-box"><div class="lcd-label">AKÜ VOLTAJI</div><div class="lcd-value" id="val-batt-v" style="color:var(--neon-green)">408.0 V</div></div>
+                    <div class="lcd-box"><div class="lcd-label">AKÜ KAPASİTE</div><div class="lcd-value" id="val-batt-cap" style="color:var(--neon-green)">%100 Ah</div></div>
+                    <div class="lcd-box"><div class="lcd-label">ŞARJ AKIMI</div><div class="lcd-value" id="val-charge-i" style="color:var(--neon-amber)">0.5 A</div></div>
+                </div>
+                
+                <div class="scada-controls">
+                    <button class="btn-sim btn-power" id="btn-cut" onclick="togglePowerGrid()">Şebekeyi Kes / Ver (Akü Testi)</button>
+                    <button class="btn-sim btn-byp" id="btn-byp" onclick="toggleBypass()">Bypass Modu</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats-bar">
+            <div><div class="stat-num">15+</div><div class="stat-desc">Yıllık Deneyim</div></div>
+            <div><div class="stat-num">%99.9</div><div class="stat-desc">Şebeke İzolasyon Verimi</div></div>
+            <div><div class="stat-num">7/24</div><div class="stat-desc">Kesintisiz Teknik Destek</div></div>
+            <div><div class="stat-num">1000+</div><div class="stat-desc">Tamamlanan Proje</div></div>
+        </section>
+
+        <section class="container">
+            <div class="section-title">
+                <h2>Öne Çıkan Enerji Çözümlerimiz</h2>
+                <p>Kartek Enerji güvencesiyle yüksek performanslı endüstriyel çözümler</p>
+            </div>
+            <div class="grid-3">
+                <div class="card">
+                    <i class="fa-solid fa-server card-icon"></i>
+                    <h3>Online UPS Sistemleri</h3>
+                    <p>3P/3P Çift çevrim teknolojisine sahip Innovasis ve Artronic endüstriyel kesintisiz güç kaynakları.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-solar-panel card-icon"></i>
+                    <h3>Modüler Güç Sistemleri</h3>
+                    <p>Veri merkezleri ve kritik altyapılar için modüler olarak büyütülebilir yüksek verimli Necron ve Innovasis sistemleri.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-charge-station card-icon"></i>
+                    <h3>EV Şarj Çözümleri</h3>
+                    <p>Yeni nesil elektrikli araçlar için ultra hızlı DC ve AC akıllı şarj istasyonu altyapıları.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- PAGE 2: KURUMSAL -->
+    <div id="page-about" class="page-tab container">
+        <div class="section-title">
+            <h2>Hakkımızda & Kurumsal Vizyon</h2>
+            <p>Kartek Enerji Sanayi ve Ticaret A.Ş.</p>
+        </div>
+        <div class="card" style="margin-bottom: 30px;">
+            <h3 style="color:var(--neon-blue); margin-bottom: 15px;">Enerji Kalitesi Yönetimi ve Kritik Altyapı Güvenliği</h3>
+            <p style="margin-bottom: 15px;">Kartek Enerji, Trabzon merkezli operasyonel gücüyle Doğu Karadeniz ve Türkiye genelindeki endüstriyel tesisler, hastaneler, veri merkezleri ve kamu kurumları için yenilikçi kesintisiz güç çözümleri sunmaktadır.</p>
+            <p>Oğuz YILDIRIM liderliğindeki uzman kadromuz ile Innovasis, Artronic ve Necron marka güç kaynaklarının satış, kurulum ve 7/24 teknik servis hizmetlerini Trabzon Pelitli'deki merkezimizden yürütmekteyiz.</p>
+        </div>
+    </div>
+
+    <!-- PAGE 3: ÜRÜNLERİMİZ -->
+    <div id="page-products" class="page-tab container">
+        <div class="section-title">
+            <h2>Ürün Kataloğu ve Markalarımız</h2>
+            <p>İhtiyacınıza uygun Kesintisiz Güç Kaynağı Modelleri</p>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fa-solid fa-microchip card-icon"></i>
+                <h3>INNOVASIS Easyline 1-3 kVA</h3>
+                <p>Yüksek güç faktörü, LCD ekran ve akıllı akü yönetimi ile kompakt çözümler.</p>
+                <a href="#" onclick="alert('Döküman indiriliyor...')" style="color:var(--neon-blue); text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold;">[PDF] Katalog İndir</a>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-bolt card-icon"></i>
+                <h3>INNOVASIS Multiline 10-100 kVA</h3>
+                <p>Endüstriyel 3P/3P çift çevrim online UPS sistemleri.</p>
+                <a href="#" onclick="alert('Döküman indiriliyor...')" style="color:var(--neon-blue); text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold;">[PDF] Şartname İndir</a>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-car-battery card-icon"></i>
+                <h3>ARTRONIC Titan 10-300 kVA</h3>
+                <p>Ağır sanayi ve tıbbi cihazlar için yüksek verimli güç kaynağı.</p>
+                <a href="#" onclick="alert('Döküman indiriliyor...')" style="color:var(--neon-blue); text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold;">[PDF] Katalog İndir</a>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-box-archive card-icon"></i>
+                <h3>NECRON RM50 Modüler UPS</h3>
+                <p>Veri merkezleri için ölçeklenebilir modüler mimari.</p>
+                <a href="#" onclick="alert('Döküman indiriliyor...')" style="color:var(--neon-blue); text-decoration:none; display:inline-block; margin-top:15px; font-weight:bold;">[PDF] Datasheet İndir</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: REFERANSLAR -->
+    <div id="page-refs" class="page-tab container">
+        <div class="section-title">
+            <h2>Başarı Hikayeleri & Referanslar</h2>
+            <p>Kritik altyapılarda Kartek Enerji imzası</p>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <h3 style="color:var(--neon-green)">Şehir Hastanesi Kompleksi</h3>
+                <p><strong>Sorun:</strong> Yoğun bakım ünitelerindeki kritik yaşam destek cihazlarını etkileyen şebeke dalgalanmaları.</p>
+                <p style="margin-top:10px;"><strong>Çözüm:</strong> 2x500 kVA Modüler UPS entegrasyonu ile sıfır saniye transfer süresi sağlandı.</p>
+            </div>
+            <div class="card">
+                <h3 style="color:var(--neon-green)">Ulusal Veri Merkezi</h3>
+                <p><strong>Sorun:</strong> Sunucu kabinlerinde yaşanan yüksek enerji sarfiyatı ve aşırı ısınma problemleri.</p>
+                <p style="margin-top:10px;"><strong>Çözüm:</strong> Eco-Mod destekli Multiline serisi kurularak %97 online verim elde edildi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: BLOG -->
+    <div id="page-blog" class="page-tab container">
+        <div class="section-title">
+            <h2>Güncel Haberler ve Teknolojiler</h2>
+            <p>Enerji sektöründen teknolojik gelişmeler</p>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <h3>CNC Tezgahlarında Endüstriyel UPS'in Kritik Önemi</h3>
+                <p>Mikro kesintilerin hassas imalat tezgahlarında yol açtığı maliyetler ve korunma yöntemleri.</p>
+            </div>
+            <div class="card">
+                <h3>Afet Durumlarında UPS'in Kritik Rolü</h3>
+                <p>Kesintisiz güç sistemlerinin acil durum haberleşme ve güvenlik altyapılarındaki stratejik önemi.</p>
+            </div>
+            <div class="card">
+                <h3>Yeni Nesil UPS Teknolojilerinde Rekabet ve Gelecek Vizyonu</h3>
+                <p>Yapay zeka entegre batarya yönetim sistemleri (BMS) ve LiFePO4 batarya entegrasyonu.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: GÜÇ HESAPLAMA -->
+    <div id="page-calc" class="page-tab container">
+        <div class="card" style="max-width:800px; margin:0 auto;">
+            <h2 style="font-family:'Orbitron', sans-serif; color:var(--neon-blue); margin-bottom:15px;"><i class="fa-solid fa-calculator"></i> Tesis UPS Yük Hesaplayıcı</h2>
+            <p style="color:var(--text-muted); margin-bottom:20px;">Sisteminizdeki cihaz adedini yazarak ihtiyaç duyduğunuz tahmini UPS gücünü bulun.</p>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-bottom:20px;">
+                <div>
+                    <label style="color:var(--text-muted); font-size:0.9rem;">Server / Bilgisayar (300W):</label>
+                    <input type="number" id="c-pc" value="0" min="0" oninput="calcPower()" style="width:100%; background:#03060a; border:1px solid var(--border-glow); color:#fff; padding:10px; border-radius:6px; margin-top:5px;">
+                </div>
+                <div>
+                    <label style="color:var(--text-muted); font-size:0.9rem;">Ekstra Yük (Watt):</label>
+                    <input type="number" id="c-extra" value="0" min="0" oninput="calcPower()" style="width:100%; background:#03060a; border:1px solid var(--border-glow); color:#fff; padding:10px; border-radius:6px; margin-top:5px;">
+                </div>
+            </div>
+
+            <div style="background:#03060a; border:1px solid var(--neon-green); padding:20px; border-radius:8px; text-align:center;">
+                <p style="color:var(--text-muted)">Hesaplanan Minimum Önerilen Güç:</p>
+                <h1 id="res-power" style="font-family:'Orbitron', sans-serif; color:var(--neon-green); margin-top:5px;">0 kVA UPS</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: İLETİŞİM -->
+    <div id="page-contact" class="page-tab container">
+        <div class="section-title">
+            <h2>Bizimle İletişime Geçin</h2>
+            <p>Kartek Enerji Yetkili Teknik Destek ve Satış Ofisi</p>
+        </div>
+        <div class="grid-3">
+            <div class="card">
+                <i class="fa-solid fa-user-tie card-icon"></i>
+                <h3>Firma Yetkilisi</h3>
+                <p><strong>Oğuz YILDIRIM</strong></p>
+                <p style="margin-top:5px;">Satış & Teknik Operasyon Direktörü</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-phone card-icon"></i>
+                <h3>Telefon & GSM</h3>
+                <p><a href="tel:05364370337" style="color:var(--neon-green); font-size:1.2rem; font-weight:bold; text-decoration:none;">0536 437 03 37</a></p>
+                <p style="color:var(--text-muted); margin-top:5px;">7/24 Kesintisiz Destek Hattı</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-location-dot card-icon"></i>
+                <h3>Merkez Adresimiz</h3>
+                <p style="color:#fff; font-weight:600;">Pelitli Mahallesi, Sahil Sokak, No:4A</p>
+                <p style="color:var(--neon-blue); margin-top:3px;">Ortahisar / TRABZON</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 8: BAYİ GİRİŞİ -->
+    <div id="page-bayi" class="page-tab container">
+        <div class="card" style="max-width:400px; margin:0 auto; text-align:center;">
+            <i class="fa-solid fa-lock card-icon"></i>
+            <h3>Kartek Bayi Portalı</h3>
+            <p style="margin-bottom:20px;">Yetkili B2B Giriş Paneli</p>
+            <input type="text" placeholder="Bayi Kodu / E-Posta" style="width:100%; background:#03060a; border:1px solid var(--border-glow); color:#fff; padding:12px; border-radius:6px; margin-bottom:10px;">
+            <input type="password" placeholder="Şifre" style="width:100%; background:#03060a; border:1px solid var(--border-glow); color:#fff; padding:12px; border-radius:6px; margin-bottom:20px;">
+            <button onclick="alert('Bayi sistemi bakım aşamasındadır.')" class="btn-primary" style="width:100%; border:none; cursor:pointer;">Giriş Yap</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo">KARTEK <span>ENERJİ</span></a>
+                <p style="margin-top:15px;">Kartek Enerji; Innovasis, Artronic ve Necron endüstriyel Kesintisiz Güç Kaynakları yetkili satış ve teknik altyapı sağlayıcısıdır.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Hızlı Bağlantılar</h4>
+                <ul>
+                    <li><a href="#" onclick="switchPage('page-home', 'n-home')">Anasayfa</a></li>
+                    <li><a href="#" onclick="switchPage('page-about', 'n-about')">Kurumsal</a></li>
+                    <li><a href="#" onclick="switchPage('page-products', 'n-products')">Ürünler</a></li>
+                    <li><a href="#" onclick="switchPage('page-calc', 'n-calc')">Güç Hesaplama</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Markalar</h4>
+                <ul>
+                    <li>INNOVASIS UPS</li>
+                    <li>ARTRONIC UPS</li>
+                    <li>NECRON Power</li>
+                    <li>EV Şarj Sistemleri</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>İletişim & Adres</h4>
+                <p>Yetkili: <strong>Oğuz YILDIRIM</strong></p>
+                <p style="color:var(--neon-green); font-weight:bold;">Tel: 0536 437 03 37</p>
+                <p style="margin-top:5px; font-size:0.85rem;">Pelitli Mah. Sahil Sok. No:4A Ortahisar / TRABZON</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © 2026 Kartek Enerji Sanayi ve Ticaret A.Ş. Tüm Hakları Saklıdır.
+        </div>
+    </footer>
+
+    <!-- REALISTIC CC-CV AKÜ VE AKIM SIMULASYON ENGINE -->
+    <script>
+        function switchPage(pageId, navId) {
+            document.querySelectorAll('.page-tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('nav a').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(pageId).classList.add('active');
+            if(document.getElementById(navId)) {
+                document.getElementById(navId).classList.add('active');
+            }
+            window.scrollTo(0,0);
+        }
+
+        function calcPower() {
+            const pc = parseInt(document.getElementById('c-pc').value) || 0;
+            const extra = parseInt(document.getElementById('c-extra').value) || 0;
+            const totalW = (pc * 300) + extra;
+            const kva = totalW === 0 ? "0" : ((totalW * 1.25) / 800).toFixed(1);
+            document.getElementById('res-power').innerText = kva + " kVA UPS";
+        }
+
+        // AKÜ SİMÜLASYON PARAMETRELERİ
+        let isGrid = true;
+        let isByp = false;
+
+        let battCapacity = 100.0; // Akü Doluluk Yüzdesi (% Ah)
+        let battVoltage = 408.0;  // Akü Voltajı (V)
+        let chargeCurrent = 0.5;  // Şarj Akımı (A)
+        
+        const MAX_VOLTAGE = 408.0;
+        const MIN_VOLTAGE = 320.0;
+        const MAX_CHARGE_CURRENT = 25.0; // Boşken çekilen maks akım (25 Amper)
+
+        // DİNAMİK TIMER (Her 400 milisaniyede akım/voltaj hesabı yapar)
+        setInterval(() => {
+            if (isByp) return;
+
+            const vBattElem = document.getElementById('val-batt-v');
+            const cBattElem = document.getElementById('val-batt-cap');
+            const iChargeElem = document.getElementById('val-charge-i');
+
+            if (!isGrid) {
+                // ŞEBEKE KESİK (AKÜDEN BESLEME / DEŞARJ MODU)
+                if (battCapacity > 0) {
+                    battCapacity -= 0.5; // Kapasite (% Ah) azalıyor
+                    battVoltage -= 0.44; // Voltaj düşüyor
+                    chargeCurrent = 0.0; // Deşarj sırasında şarj akımı sıfırdır
+                    
+                    if(battCapacity < 0) battCapacity = 0;
+                    if(battVoltage < MIN_VOLTAGE) battVoltage = MIN_VOLTAGE;
+                }
+
+                vBattElem.innerText = battVoltage.toFixed(1) + " V";
+                cBattElem.innerText = "%" + battCapacity.toFixed(0) + " Ah";
+                iChargeElem.innerText = chargeCurrent.toFixed(1) + " A";
+
+                // Uyarı Renkleri
+                if(battCapacity < 20) {
+                    vBattElem.style.color = "var(--neon-red)";
+                    cBattElem.style.color = "var(--neon-red)";
+                } else if(battCapacity < 50) {
+                    vBattElem.style.color = "var(--neon-amber)";
+                    cBattElem.style.color = "var(--neon-amber)";
+                }
+
+            } else {
+                // ŞEBEKE VAR (AKÜ ŞARJ MODU)
+                if (battCapacity < 100) {
+                    battCapacity += 0.5; // Kapasite doluyor
+                    battVoltage += 0.44; // Voltaj yükseliyor
+                    
+                    if(battCapacity >= 100) {
+                        battCapacity = 100.0;
+                        battVoltage = MAX_VOLTAGE;
+                        chargeCurrent = 0.5; // Tam dolunca tampon şarj (Float)
+                    } else if (battCapacity < 80) {
+                        // CC (Constant Current Mode): %0-80 arası sabit yüksek akım
+                        chargeCurrent = MAX_CHARGE_CURRENT; 
+                    } else {
+                        // CV (Constant Voltage Mode): %80-100 arası akım kademeli ve yavaşça düşer
+                        // Doyum yaklaştıkça akım 25A'den 0.5A'e doğru iner
+                        let remainingPercent = (100 - battCapacity) / 20.0; // 1.0 -> 0.0
+                        chargeCurrent = 0.5 + (MAX_CHARGE_CURRENT - 0.5) * Math.pow(remainingPercent, 1.5);
+                    }
+                } else {
+                    battCapacity = 100.0;
+                    battVoltage = MAX_VOLTAGE;
+                    chargeCurrent = 0.5; // Tampon Şarj
+                }
+
+                vBattElem.innerText = battVoltage.toFixed(1) + " V";
+                cBattElem.innerText = "%" + battCapacity.toFixed(0) + " Ah";
+                iChargeElem.innerText = chargeCurrent.toFixed(1) + " A";
+
+                vBattElem.style.color = "var(--neon-green)";
+                cBattElem.style.color = "var(--neon-green)";
+            }
+        }, 400);
+
+        function togglePowerGrid() {
+            if(isByp) isByp = false;
+            isGrid = !isGrid;
+            
+            const mode = document.getElementById('sys-mode');
+            const gVal = document.getElementById('val-grid');
+            const oVal = document.getElementById('val-out');
+            
+            const nGrid = document.getElementById('node-grid');
+            const nRect = document.getElementById('node-rect');
+            const nBatt = document.getElementById('node-batt');
+            const nByp = document.getElementById('node-byp');
+            const nInv = document.getElementById('node-inv');
+
+            nByp.className = "node";
+
+            if(!isGrid) {
+                // ŞEBEKE KESİLDİ
+                mode.className = "mode-pill mode-battery";
+                mode.innerHTML = "INNOVASIS AKÜDEN BESLİYOR (DEŞARJ)";
+                gVal.innerText = "0 V";
+                oVal.style.color = "var(--neon-green)";
+                
+                nGrid.className = "node on-red";
+                nRect.className = "node";
+                nBatt.className = "node on-green";
+                nInv.className = "node on-green";
+            } else {
+                // ŞEBEKE GELDİ (ONLİNE & AKILLI ŞARJ)
+                mode.className = "mode-pill mode-online";
+                mode.innerHTML = "INNOVASIS ONLİNE ÇALIŞIYOR (ŞARJ)";
+                gVal.innerText = "381 V";
+                oVal.style.color = "var(--neon-green)";
+                
+                nGrid.className = "node on-green";
+                nRect.className = "node on-green";
+                nBatt.className = "node on-green";
+                nInv.className = "node on-green";
+            }
+        }
+
+        function toggleBypass() {
+            isByp = !isByp;
+            const mode = document.getElementById('sys-mode');
+            const oVal = document.getElementById('val-out');
+
+            const nGrid = document.getElementById('node-grid');
+            const nRect = document.getElementById('node-rect');
+            const nBatt = document.getElementById('node-batt');
+            const nByp = document.getElementById('node-byp');
+            const nInv = document.getElementById('node-inv');
+
+            if(isByp) {
+                mode.className = "mode-pill mode-bypass";
+                mode.innerHTML = "BYPASS MODUNDA";
+                oVal.style.color = "var(--neon-amber)";
+
+                nGrid.className = "node on-green";
+                nRect.className = "node";
+                nBatt.className = "node";
+                nByp.className = "node on-amber";
+                nInv.className = "node";
+            } else {
+                isGrid = true;
+                togglePowerGrid();
+            }
+        }
+    </script>
+</body>
+</html>
